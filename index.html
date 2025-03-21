@@ -2,9 +2,76 @@
 <html>
   <head>
     <title>braksator.github.io</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+      body {
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+      }
+      .links {
+        display: flex;
+        gap: 20px;
+      }
+      .link a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 150px;
+        height: 150px;
+        background: white;
+        border: 2px solid #ccc;
+        border-radius: 12px;
+        text-decoration: none;
+        font-size: 14px;
+        color: #333;
+        text-align: center;
+        padding: 10px;
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        transition: background 0.3s ease, box-shadow 0.3s ease;
+      }
+      .link img {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 8px;
+      }
+      .link a:hover {
+        background: linear-gradient(135deg, #ffffff, #e0e0e0);
+        box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
+      }
+      .link a:active {
+        background: linear-gradient(135deg, #e0e0e0, #d0d0d0);
+        box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.2);
+      }
+      @media (max-width: 400px) {
+        .links {
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+    </style>
   </head>
   <body>
-    <a href="/waves">Wave Interference Pattern Generator</a><br>
-    <a href="http://antfarmsocial.github.io">Ant Farm Social (Ant Simulator)</a><br>
+    <div class="links">
+      <div class="link">
+        <a href="/waves">
+          <img src="waves.png">
+          <span>Wave Interference Pattern Generator</span>
+        </a>
+      </div>
+      <div class="link">
+        <a href="http://antfarmsocial.github.io">
+          <img src="afs.png">
+          <span>Ant Farm Social<br>(Ant Simulator)</span>
+        </a>
+      </div>
+    </div>
   </body>
 </html>
