@@ -89,9 +89,11 @@
     }
     function analyzeText() {
       let text = document.getElementById('textInput').value, results = document.getElementById('results');
-      results.innerText = text ? '⌛ Processing...' : '⚠️ No input text supplied!';
-      let res = lrs.textReport(lrs.text(text, getOpts()), 0, getChars());
-      results.innerText = res ? res : '📄 No results.';
+      results.innerText = text ? '⌛ Processing...\r\n' : '⚠️ No input text supplied!';
+      if (text) {
+        let res = lrs.textReport(lrs.text(text, getOpts()), 0, getChars());
+        results.innerText += res ? res : '📄 No results.';
+      }
     }
     function analyze() {
       let files = document.getElementById('fileInput').files, results = document.getElementById('results');

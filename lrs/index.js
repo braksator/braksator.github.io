@@ -12,8 +12,7 @@ let lrs = module.exports = {
 
   // Finds repeated substrings in a piece of text.
   text: (txt, opts) => {
-    let defaults = { maxRes: 50, minLen: 4, maxLen: 120, minOcc: 3, omit: [], trim: 0, clean: 0, wb: 0, words: 0 };
-    opts = { ...defaults, ...opts };
+    opts = { ...{ maxRes: 50, minLen: 4, maxLen: 120, minOcc: 3, omit: [], trim: 0, clean: 0, wb: 0, words: 0 }, ...opts };
     let cleanedText = opts.clean ? txt.replace(/[^\w]/g, ' ') : txt,
       strings = {},
       text = opts.words ? cleanedText.split(/\s+/) : [cleanedText];
