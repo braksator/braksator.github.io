@@ -34,7 +34,11 @@
       <label><input type="checkbox" id="trim"> Trim whitespace</label>
       <label><input type="checkbox" id="cleanText"> Break match on symbols</label>
       <label><input type="checkbox" id="splitWords"> Find only whole words</label>
-      <label><input type="checkbox" id="wordBound"> Word Boundaries</label>
+      <label><input type="checkbox" id="wordBound"> Word boundaries</label>
+      <br>
+      <label class="cr">Delimiter: <input type="text" id="delim" size="2" value="★"></label>
+      <label class="cr">Open paren: <input type="text" id="open" size="2" value="⦅"></label>
+      <label class="cr">Close paren: <input type="text" id="close" size="2" value="×⦆"></label>
     </div>
     <button class="analyze" onclick="analyze()">Analyze</button>
     <h3>Results:</h3>
@@ -60,8 +64,16 @@
     a { color: #bbb; }
     .analyze { padding: .25em 2em; color: #fff; background: #369c17; border: 0; border-radius: 5px; &:hover { background: #40aa20;} }
     .intro { opacity: .4; font-size: 1.2em; font-style: italic; }
+    .cr { font-size: .8em; input { font-size: .8em; }}
   </style>
   <script>
+    function getChars() {
+      return {
+        delim: document.getElementById('delim').value,
+        open: document.getElementById('open').value,
+        close: document.getElementById('close').value,
+      };
+    }
     function getOpts() {
       return {
         minLen: +document.getElementById('minLen').value,
@@ -78,7 +90,7 @@
     function analyzeText() {
       let text = document.getElementById('textInput').value, results = document.getElementById('results');
       results.innerText = text ? '⌛ Processing...' : '⚠️ No input text supplied!';
-      let res = lrs.textReport(lrs.text(text, getOpts()));
+      let res = lrs.textReport(lrs.text(text, getOpts()), 0, getChars());
       results.innerText = res ? res : '📄 No results.';
     }
     function analyze() {
@@ -88,7 +100,7 @@
       [...files].forEach(file => {
         let reader = new FileReader();
         reader.onload = () => {
-          let res = lrs.textReport(lrs.text(reader.result, getOpts()));
+          let res = lrs.textReport(lrs.text(reader.result, getOpts()), 0, getChars());
           results.innerText += `📄 Analysis of repeated strings in "${file.name}": ${res ? res : 'No results.'} \r\n`;
         };
         reader.readAsText(file);
