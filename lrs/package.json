@@ -1,0 +1,22 @@
+{
+  "name": "longestrepeatedstrings",
+  "version": "1.0.0",
+  "description": "Generates a report about the longest repeated substrings in supplied text.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "longest",
+    "repeated",
+    "substring",
+    "string",
+    "strings",
+    "substrings"
+  ],
+  "author": "D.A. Braksator",
+  "license": "Unlicense",
+  "dependencies": {
+    "fs": "^0.0.1-security"
+  }
+}
