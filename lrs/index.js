@@ -50,7 +50,7 @@ let lrs = module.exports = {
   },
 
   // Creates a text report for files analysis, with optional console output.
-  filesReport: (results, out = 0) => Object.entries(results).map(([filename, res]) => {
+  filesReport: (results, out = 0, chars = {}) => Object.entries(results).map(([filename, res]) => {
     let ret = textReport(res).join(', '),
       output = `📄 Analysis of repeated strings in "${filename}": ${ret ? ret : 'No results.'}\r\n`;
     out && console.log(output);
@@ -58,8 +58,9 @@ let lrs = module.exports = {
   }).join(''),
 
   // Creates a text report for text analysis, with optional console output.
-  textReport: (results, out = 0) => {
-    let output = Array.from(new Set(results.map(result => `${result.substring} (${result.count}x)`))).join(', ') || '📄 No results.';
+  textReport: (results, out = 0, chars = {}) => {
+    chars = { ...{ delim: '★', open: '⦅', close: '×⦆' }, ...chars };
+    let output = Array.from(new Set(results.map(result => `${result.substring}${chars.open}${result.count}${chars.close}`))).join(chars.delim) || '📄 No results.';
     out && console.log(output);
     return output;
   }
