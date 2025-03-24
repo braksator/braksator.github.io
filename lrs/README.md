@@ -53,14 +53,15 @@ console.log(results);
 **Parameters**:
 - `text` (String): The input text to analyze.
 - `opts` (Object, optional): A configuration object with the following properties:
-  - `maxRes` (Number, default: 100): The maximum number of results to return.
+  - `maxRes` (Number, default: 50): The maximum number of results to return.
   - `minLen` (Number, default: 4): The minimum length of substrings to consider.
-  - `maxLen` (Number, default: 30): The maximum length of substrings to consider.
+  - `maxLen` (Number, default: 120): The maximum length of substrings to consider.
   - `minOcc` (Number, default: 3): The minimum number of occurrences a substring must have to be included.
   - `omit` (Array, default: `[]`): An array of substrings to omit from the results.
-  - `clean` (Boolean, default: `true`): If `true`, Break word on and ignore symbols.
-  - `words` (Boolean, default: `true`): If `true`, Find only whole words.
-  - `wb` (Boolean, default: `true`): If `true`, Restricts matches to word boundaries.
+  - `trim` (Boolean, default: `false`): If `true`, Trims whitespace from results.
+  - `clean` (Boolean, default: `false`): If `true`, Break word on and ignore symbols.
+  - `words` (Boolean, default: `false`): If `true`, Find only whole words.
+  - `wb` (Boolean, default: `false`): If `true`, Restricts matches to word boundaries.
 
 
 **Returns**: An array of objects containing the repeated substrings, their count, and a score for each.

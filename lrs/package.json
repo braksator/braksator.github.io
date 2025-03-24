@@ -1,6 +1,6 @@
 {
   "name": "longestrepeatedstrings",
-  "version": "1.0.0",
+  "version": "1.0.0-a",
   "description": "Generates a report about the longest repeated substrings in supplied text.",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,10 @@
   ],
   "author": "D.A. Braksator",
   "license": "Unlicense",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/braksator/LongestRepeatedStrings.git"
+  },
   "dependencies": {
     "fs": "^0.0.1-security"
   }
