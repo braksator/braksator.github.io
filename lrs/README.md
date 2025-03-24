@@ -13,7 +13,7 @@ Generates a report about the longest repeated substrings in supplied text, weigh
 
 ## Stand-alone usage
 
-See online demo link above, or download project files and open index.html to use the GUI.
+See online demo link above, or [download project zip file](https://github.com/braksator/LongestRepeatedStrings/releases/) and open index.html to use the GUI.
 
 ## Installation
 
@@ -58,10 +58,10 @@ console.log(results);
   - `maxLen` (Number, default: 120): The maximum length of substrings to consider.
   - `minOcc` (Number, default: 3): The minimum number of occurrences a substring must have to be included.
   - `omit` (Array, default: `[]`): An array of substrings to omit from the results.
-  - `trim` (Boolean, default: `false`): If `true`, Trims whitespace from results.
-  - `clean` (Boolean, default: `false`): If `true`, Break word on and ignore symbols.
-  - `words` (Boolean, default: `false`): If `true`, Find only whole words.
-  - `wb` (Boolean, default: `false`): If `true`, Restricts matches to word boundaries.
+  - `trim` (Boolean, default: `false`): If `true`, trims whitespace from results.
+  - `clean` (Boolean, default: `false`): If `true`, break match on symbols.
+  - `words` (Boolean, default: `false`): If `true`, find only whole words.
+  - `wb` (Boolean, default: `false`): If `true`, restricts matches to word boundaries.
 
 
 **Returns**: An array of objects containing the repeated substrings, their count, and a score for each.
@@ -94,7 +94,11 @@ console.log(report);
 
 **Parameters**:
 - `results` (Object): The results returned by the `files` function.
-- `out` (Number, optional, default: `0`): If set to `1`, the report will be logged to the console instead of being returned as a string.
+- `out` (Number, optional, default: `0`): If set to `1`, the report will be logged to the console too.
+- `chars` (Object, optional): A configuration object with the following properties:
+  - `delim` (String, default: '★'): Character/s to insert between each result.
+  - `open` (String, default: '⦅'): Character/s to insert before the repeat count.
+  - `close` (String, default: '×⦆'): Character/s to insert after the repeat count.
 
 **Returns**: A text report summarizing the repeated substrings found in each file.
 
@@ -107,33 +111,31 @@ console.log(report);
 
 **Parameters**:
 - `results` (Array): The results returned by the `text` function.
-- `out` (Number, optional, default: `0`): If set to `1`, the report will be logged to the console instead of being returned as an array.
+- `out` (Number, optional, default: `0`): If set to `1`, the report will be logged to the console too.
+- `chars` (Object, optional): Same options as in the `filesReport` function.
 
 **Returns**: A list of repeated substrings with their occurrence counts.
 
 ### Example Workflow
 
-1. First, analyze a single text:
+1. Either, analyze a single text or multiple files:
    ```javascript
    const text = 'This is an example text with repeated substrings';
    const results = LRS.text(text);
    ```
-2. Then, analyze multiple files:
+   or
    ```javascript
    const files = ['file1.txt', 'file2.txt'];
    const results = LRS.files(files);
    ```
-3. Afterward, generate a report:
+2. Afterward, generate a report:
    ```javascript
    const report = LRS.filesReport(results, 1); // Logs the report to console
    ```
 
 ### Notes
 
-- The `text` and `files` functions clean the text by removing non-alphanumeric characters and splitting it into words, can be optionally disabled.
 - Results are sorted by a score, which is calculated based on the length of the substring and the number of occurrences.
-- You can omit specific substrings by passing them in the `omit` array.
-- The `wb` option can be set to `true` to restrict substring matches to word boundaries.
 
 
 ## Contributing
