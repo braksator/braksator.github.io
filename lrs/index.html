@@ -42,7 +42,7 @@
   </div>
   <footer>Created Mar 2025 by D.A. Braksator. <a href="https://github.com/braksator/LongestRepeatedStrings">Github repo</a></footer>
   <style>
-    html, body { min-height: 100%; }
+    html, body { min-height: 100%; margin: 0; }
     body { font-family: Futura, "Trebuchet MS", Arial, sans-serif; text-align: center; padding: 1em; background: repeating-linear-gradient(-45deg,#efefef,#efefef 5px,#fefefe 6px,#efefef 20px); }
     h1, h2 { font-size: 32px; font-family: "Winky Sans", sans-serif; font-weight: bold; }
     h2 { font-size: 24px; margin: 0 0 .5em 0; }
@@ -51,8 +51,8 @@
     input, button { margin: 5px; padding: .25em; }
     button, input[type=file] { font-size: 24px; }
     input[type=number] { width: 50px; }
-    label { font-variant: small-caps; line-height: 2em; }
-    .hr { width: 25%; display: inline-block; text-align: right; }
+    label { font-variant: small-caps; line-height: 2em; white-space: pre; }
+    .hr { width: 25%; display: inline-block; text-align: right; min-width: 220px; }
     .results { text-align: left; padding: 27px 1em 52px 1em; white-space: pre-wrap; line-height: 27px; background: repeating-linear-gradient(#fbfbb2, #fbfbb2 25px, #9abd6e 26px, #9abd6e 27px);}
     h3 { font-size: 14px; text-align: left; background: #fbfbb2; position: relative; font-variant: small-caps; margin: 20px 0 0 0; padding: 2em 1.4em; user-select: none; color: #444; border-bottom: 3px double #d9ac68; }
     footer { margin-top: 20px; font-size: 12px; color: #666; background: #fff; max-width: 960px; padding: .2em; margin: 1em auto; border-radius: 3px; opacity: .6 }
@@ -63,7 +63,7 @@
   </style>
   <script>
     function getOpts() {
-      return opts = {
+      return {
         minLen: +document.getElementById('minLen').value,
         maxLen: +document.getElementById('maxLen').value,
         minOcc: +document.getElementById('minOcc').value,
