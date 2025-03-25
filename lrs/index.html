@@ -27,7 +27,7 @@
       <label title="The minimum number of occurrences a substring must have to be included." class="hr">Min occurrences: <input type="number" id="minOcc" value="3"></label>
       <label title="The maximum length of substrings to consider." class="hr">Max results: <input type="number" id="maxRes" value="50"></label>
       <br>
-      <label title="Per-occurence score penalty, helps order results for deduplication.  You'd probably want this to be minLen or higher." class="fr">Per-occurence score penalty: <input type="number" id="penalty" value="0"></label>
+      <label title="Helps order results. You'd probably want this to be `Min match length` or higher." class="fr">Per-occurence score penalty: <input type="number" id="penalty" value="0"></label>
       <br>
       <label title="Substrings to omit from the results. Can be used to ignore accepted long/frequent words.">Words to omit (one per line):</label>
       <br>
@@ -98,6 +98,7 @@
         clean: document.getElementById('cleanText').checked,
         splitWords: document.getElementById('splitWords').checked,
         wb: document.getElementById('wordBound').checked,
+        break: [document.getElementById('break').value],
       };
     }
     function analyzeText() {
