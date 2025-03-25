@@ -18,7 +18,7 @@
     <p class="intro">Finds <em>duplicated text</em> strings and generates a report about the <em>longest substrings</em> or <em>most frequent words</em> in supplied text, weighted by how much space the string takes up overall (length * occurences).</p>
     <p>Paste text or select files to analyze!</p>
     <textarea id="textInput" placeholder="Enter text here..."></textarea>
-    <input type="file" id="fileInput" multiple>
+    <div id="upload"><label><span>📁</span><input type="file" id="fileInput" multiple></label></div>
     <div class="opts">
       <h2>Options</h2>
       <label title="The minimum length of substrings to consider." class="hr">Min match length: <input type="number" id="minLen" value="4"></label>
@@ -56,11 +56,11 @@
     .container { max-width: 960px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px #aaa; }
     textarea { width: 100%; height: 100px; max-width: 100%;  }
     input, button { margin: 5px; padding: .25em; }
-    button, input[type=file] { font-size: 24px; }
+    button { font-size: 24px; }
     input[type=number] { width: 50px; }
     label { font-variant: small-caps; line-height: 2em; white-space: pre; }
     .hr { width: 25%; display: inline-block; text-align: right; min-width: 220px; }
-    .results { text-align: left; padding: 27px 1em 52px 1em; white-space: pre-wrap; line-height: 27px; background: repeating-linear-gradient(#fbfbb2, #fbfbb2 25px, #9abd6e 26px, #9abd6e 27px);}
+    .results { text-align: left; padding: 27px 1em 52px 1em; white-space: pre-wrap; line-height: 27px; background: repeating-linear-gradient(#fbfbb2, #fbfbb2 25px, #9abd6e 26px, #9abd6e 27px); }
     h3 { font-size: 14px; text-align: left; background: #fbfbb2; position: relative; font-variant: small-caps; margin: 20px 0 0 0; padding: 2em 1.4em; user-select: none; color: #444; border-bottom: 3px double #d9ac68; }
     footer { margin-top: 20px; font-size: 12px; color: #666; background: #fff; max-width: 960px; padding: .2em; margin: 1em auto; border-radius: 3px; opacity: .6 }
     .opts { background-color: #f2f2f2; padding: 1em; margin: 1em; border-radius: 10px }
@@ -68,6 +68,15 @@
     .analyze { padding: .25em 2em; color: #fff; background: #369c17; border: 0; border-radius: 5px; &:hover { background: #40aa20;} }
     .intro { opacity: .6; font-size: 2.2em; font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif; transform: scaleX(.8);  }
     .cr { font-size: .8em; input { font-size: .8em; }}
+    #upload { font-size: 24px; margin-top: .5em;
+      label {
+        border: 3px dashed rgb(255, 165, 0, .6); border-radius: 10px; padding: 24px 0 24px 24px; background: #f9fbff; cursor: pointer; span { font-size: 40px; position: relative; top: 4px; }
+        &:hover { background: #f0f4fc; input[type=file]::file-selector-button { background: #fafafa; } }
+      }
+    }
+    input[type=file] { font-size: 24px; cursor: pointer; text-align: center; margin: 0 auto; margin-left: .5em;
+      &::file-selector-button { margin: 1em auto; margin-right: 1em; cursor: pointer; padding: .25em 2em; border-radius: 5px; border-width: 0; background: #f2f2f2; }
+    }
   </style>
   <script>
     function getChars() {
