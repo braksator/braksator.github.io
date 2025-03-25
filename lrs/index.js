@@ -12,24 +12,33 @@ let lrs = module.exports = {
 
   // Finds repeated substrings in a piece of text.
   text: (txt, opts) => {
-    opts = { ...{ maxRes: 50, minLen: 4, maxLen: 120, minOcc: 3, omit: [], trim: 0, clean: 0, wb: 0, words: 0 }, ...opts };
+    opts = { ...{ maxRes: 50, minLen: 4, maxLen: 120, minOcc: 3, omit: [], trim: 0, clean: 0, wb: 0, words: 0, break: [], penalty: 0 }, ...opts };
     let cleanedText = opts.clean ? txt.replace(/[^\w]/g, ' ') : txt,
       strings = {},
       text = opts.words ? cleanedText.split(/\s+/) : [cleanedText];
+    // Convert break words into a regex for fast matching
+    let breakRegex = opts.break.length ? new RegExp(opts.break.map(s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'i') : null;
     for (let seg of text) {
       let len = seg.length;
       for (let i = 0; i <= len - opts.minLen; i++) {
         for (let j = opts.minLen; j <= opts.maxLen && i + j <= len; j++) {
           let substr = seg.substring(i, i + j);
+          // Skip if the substring contains any of the break words
+          if (breakRegex && breakRegex.test(substr)) continue;
           if (!strings[substr]) strings[substr] = 0;
           strings[substr]++;
         }
       }
     }
-    let esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), res = Object.keys(strings)
-      .filter(substr => strings[substr] >= opts.minOcc && (!opts.wb || !!txt.match(new RegExp(`[^a-zA-Z0-9\\s\n]${esc(substr)}|\\n${esc(substr)}`, 'g'))) && !opts.omit.includes(substr.toLowerCase()))
-      .map(substr => ({substring: substr, count: strings[substr], score: Math.max(1, (substr.length - 3)) * Math.max(1, strings[substr] - 1)}));
-    if (opts.trim) res = res.map(obj => ({...obj, substring: obj.substring.trim()})).filter(obj => obj.substring !== "");
+    let esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+      res = Object.keys(strings)
+        .filter(substr =>
+          strings[substr] >= opts.minOcc &&
+          (!opts.wb || !!txt.match(new RegExp(`[^a-zA-Z0-9\\s\n]${esc(substr)}|\\n${esc(substr)}`, 'g'))) &&
+          !opts.omit.includes(substr.toLowerCase())
+        )
+        .map(substr => ({ substring: substr, count: strings[substr], score: (substr.length - opts.penalty) * strings[substr] }));
+    if (opts.trim) res = res.map(obj => ({ ...obj, substring: obj.substring.trim() })).filter(obj => obj.substring !== "");
     res.sort((a, b) => b.score - a.score);
     let ret = [], seen = new Set();
     for (let r of res) {
