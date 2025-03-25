@@ -53,13 +53,13 @@ let lrs = module.exports = {
   // Finds results in files.
   files: (files, opts) => {
     let ret = {};
-    files.forEach(f => ret[f] = text(fs.readFileSync(f, { encoding: 'utf8', flag: 'r' }), opts));
+    files.forEach(f => ret[f] = lrs.text(fs.readFileSync(f, { encoding: 'utf8', flag: 'r' }), opts));
     return ret;
   },
 
   // Creates a text report for files analysis, with optional console output.
   filesReport: (results, out = 0, chars = {}) => Object.entries(results).map(([filename, res]) => {
-    let ret = textReport(res).join(', '),
+    let ret = lrs.textReport(res).join(', '),
       output = `📄 Analysis of repeated strings in "${filename}": ${ret ? ret : 'No results.'}\r\n`;
     out && console.log(output);
     return output;
