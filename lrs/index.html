@@ -98,7 +98,7 @@
         clean: document.getElementById('cleanText').checked,
         splitWords: document.getElementById('splitWords').checked,
         wb: document.getElementById('wordBound').checked,
-        break: [document.getElementById('break').value],
+        break: document.getElementById('break').value ? [document.getElementById('break').value] : [],
       };
     }
     function analyzeText() {
