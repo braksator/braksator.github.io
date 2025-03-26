@@ -32,11 +32,7 @@ let lrs = module.exports = {
     }
     let esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
       res = Object.keys(strings)
-        .filter(substr =>
-          strings[substr] >= opts.minOcc &&
-          (!opts.wb || !!txt.match(new RegExp(`[^a-zA-Z0-9\\s\n]${esc(substr)}|\\n${esc(substr)}`, 'g'))) &&
-          !opts.omit.includes(substr.toLowerCase())
-        )
+        .filter(substr => strings[substr] >= opts.minOcc && (!opts.wb || !!txt.match(new RegExp(`\\b${esc(substr)}\\b`, 'g'))) && !opts.omit.includes(substr.toLowerCase()))
         .map(substr => ({ substring: substr, count: strings[substr], score: (substr.length - opts.penalty) * strings[substr] }));
     if (opts.trim) res = res.map(obj => ({ ...obj, substring: obj.substring.trim() })).filter(obj => obj.substring !== "");
     res.sort((a, b) => b.score - a.score);
