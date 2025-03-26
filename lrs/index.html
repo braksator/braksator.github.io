@@ -33,14 +33,15 @@
       <br>
       <textarea id="omit" style="height: 40px; field-sizing: content; width: 50%;"></textarea>
       <br>
-      <label title="Trims white space from results."><input type="checkbox" id="trim" checked> Trim white space</label>
-      <label title="Replaces symbols in input to spaces."><input type="checkbox" id="clean" checked> Convert symbols to spaces</label>
+      <label title="Symbols won't appear in matches"><input type="checkbox" id="clean" checked> Split input on symbols</label>
       <label title="Matches on whole words."><input type="checkbox" id="words" checked> Whole words</label>
+      <label title="Trims white space from results."><input type="checkbox" id="trim" checked> Trim white space</label>
+      <br>
+      <label title="Can be used to concatenate texts with a special char." class="fr">Split input on char: <input type="text" id="break" size="2" value="" placeholder="none"></label>
       <br>
       <label title="Character/s to insert between each result." class="cr">Delimiter: <input type="text" id="delim" size="2" value="★"></label>
       <label title="Character/s to insert before the repeat count." class="cr">Open paren: <input type="text" id="open" size="2" value="⦅"></label>
       <label title="Character/s to insert after the repeat count." class="cr">Close paren: <input type="text" id="close" size="2" value="×⦆"></label>
-      <label title="Can be used to concatenate texts with a special char." class="cr">Break on char: <input type="text" id="break" size="2" value="" placeholder="none"></label>
     </div>
     <button class="analyze" onclick="analyze()">Analyze</button>
     <h3>Results:</h3>

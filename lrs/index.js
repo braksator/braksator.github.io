@@ -13,12 +13,17 @@ let lrs = module.exports = {
   // Finds repeated substrings in a piece of text.
   text: (txt, opts) => {
     opts = { ...{ maxRes: 50, minLen: 4, maxLen: 120, minOcc: 3, omit: [], trim: 1, clean: 1, words: 1, break: [], penalty: 0 }, ...opts };
-    txt = opts.clean ? txt.replace(/[^\w]/g, ' ') : txt;
+    //txt = opts.clean ? txt.replace(/[^\w]/g, ' ') : txt;
+    txt = opts.clean ? txt.replace(/[^\w]/g, '\0') : txt;
     let strings = {},
-      segments = (opts.words || opts.break.length) ? txt.split(new RegExp(`(${opts.words ? '\\s+' : ''}${opts.break.length ? opts.break.join('|') : ''})`)).filter(Boolean) : [txt];
+      segments = (opts.words || opts.break.length) ?
+        txt.split(new RegExp(`(${opts.words ? '\\s+' : ''}${opts.break.length ? opts.break.join('|') : ''}|\\0)`)).filter(segment => segment !== '' && segment !== '\u0000')
+        : txt.split('\0').filter(segment => segment !== '');
     if (opts.words) {
       strings = segments.reduce((acc, word) => {
-        acc[word] = (acc[word] || 0) + 1;
+        if ((!opts.minLen || word.length >= opts.minLen) && (!opts.maxLen || word.length <= opts.maxLen)) {
+          acc[word] = (acc[word] || 0) + 1;
+        }
         return acc;
       }, {});
     }
