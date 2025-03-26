@@ -34,9 +34,8 @@
       <textarea id="omit" style="height: 40px; field-sizing: content; width: 50%;"></textarea>
       <br>
       <label title="Trims white space from results."><input type="checkbox" id="trim" checked> Trim white space</label>
-      <label title="Replaces symbols in input to spaces."><input type="checkbox" id="cleanText" checked> Convert symbols to spaces</label>
-      <label title="Splits search space up by whole words."><input type="checkbox" id="splitWords" checked> Split input by words</label>
-      <label title="Rejects matches starting part way through words."><input type="checkbox" id="wordBound" checked> Word boundaries</label>
+      <label title="Replaces symbols in input to spaces."><input type="checkbox" id="clean" checked> Convert symbols to spaces</label>
+      <label title="Matches on whole words."><input type="checkbox" id="words" checked> Whole words</label>
       <br>
       <label title="Character/s to insert between each result." class="cr">Delimiter: <input type="text" id="delim" size="2" value="★"></label>
       <label title="Character/s to insert before the repeat count." class="cr">Open paren: <input type="text" id="open" size="2" value="⦅"></label>
@@ -95,9 +94,8 @@
         penalty: +document.getElementById('penalty').value,
         omit: document.getElementById('omit').value.split('\n').map(o => o.trim()).filter(Boolean),
         trim: document.getElementById('trim').checked,
-        clean: document.getElementById('cleanText').checked,
-        splitWords: document.getElementById('splitWords').checked,
-        wb: document.getElementById('wordBound').checked,
+        clean: document.getElementById('clean').checked,
+        words: document.getElementById('words').checked,
         break: document.getElementById('break').value ? [document.getElementById('break').value] : [],
       };
     }
