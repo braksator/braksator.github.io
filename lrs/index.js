@@ -59,7 +59,7 @@ let lrs = module.exports = {
 
   // Creates a text report for files analysis, with optional console output.
   filesReport: (results, out = 0, chars = {}) => Object.entries(results).map(([filename, res]) => {
-    let ret = lrs.textReport(res).join(', '),
+    let ret = lrs.textReport(res, 0, chars),
       output = `📄 Analysis of repeated strings in "${filename}": ${ret ? ret : 'No results.'}\r\n`;
     out && console.log(output);
     return output;
