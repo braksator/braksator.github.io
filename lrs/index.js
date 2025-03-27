@@ -27,16 +27,18 @@ let lrs = module.exports = {
       }, {});
     }
     else {
-      let len = seg.length;
-      for (let i = 0; i <= len - opts.minLen; i++) {
-        for (let j = opts.minLen; j <= opts.maxLen && i + j <= len; j++) {
-          let substr = seg.substring(i, i + j);
-          if (!strings[substr]) strings[substr] = 0;
-          strings[substr]++;
+      for (let seg of segments) {
+        let len = seg.length;
+        for (let i = 0; i <= len - opts.minLen; i++) {
+          for (let j = opts.minLen; j <= opts.maxLen && i + j <= len; j++) {
+            let substr = seg.substring(i, i + j);
+            if (!strings[substr]) strings[substr] = 0;
+            strings[substr]++;
+          }
         }
       }
     }
-    
+
     let res = Object.keys(strings)
       .filter(substr => strings[substr] >= opts.minOcc && !opts.omit.includes(substr.toLowerCase()))
       .map(substr => ({ substring: substr, count: strings[substr], score: (substr.length - opts.penalty) * strings[substr] }));
