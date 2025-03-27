@@ -22,7 +22,7 @@
     <div class="opts">
       <h2>Options</h2>
       <label title="The minimum length of substrings to consider." class="hr">Min match length: <input type="number" id="minLen" value="4"></label>
-      <label title="The maximum length of substrings to consider." class="hr">Max match length: <input type="number" id="maxLen" value="120"></label>
+      <label title="The maximum length of substrings to consider." class="hr">Max match length: <input type="number" id="maxLen" value="40"></label>
       <br>
       <label title="The minimum number of occurrences a substring must have to be included." class="hr">Min occurrences: <input type="number" id="minOcc" value="3"></label>
       <label title="The maximum length of substrings to consider." class="hr">Max results: <input type="number" id="maxRes" value="50"></label>
@@ -37,11 +37,14 @@
       <label title="Matches on whole words."><input type="checkbox" id="words" checked> Whole words</label>
       <label title="Trims white space from results."><input type="checkbox" id="trim" checked> Trim white space</label>
       <br>
-      <label title="Can be used to concatenate texts with a special char." class="fr">Split input on char: <input type="text" id="break" size="2" value="" placeholder="none"></label>
+      <label title="Can be used to concatenate texts with a special char." class="fr">Split input on char: <input type="text" id="break" size="2" value=";" placeholder="none"></label>
       <br>
-      <label title="Character/s to insert between each result." class="cr">Delimiter: <textarea rows="1" id="delim" rows="1" cols="2">★</textarea></label>
-      <label title="Character/s to insert before the repeat count." class="cr">Open paren: <input type="text" id="open" size="2" value="⦅"></label>
-      <label title="Character/s to insert after the repeat count." class="cr">Close paren: <input type="text" id="close" size="2" value="×⦆"></label>
+      <div class="report-settings">
+        <h4>Report settings</h4>
+        <label title="Character/s to insert between each result." class="cr">Delimiter: <textarea rows="1" id="delim" rows="1" cols="2">★</textarea></label>
+        <label title="Character/s to insert before the repeat count." class="cr">Open paren: <input type="text" id="open" size="2" value="⦅"></label>
+        <label title="Character/s to insert after the repeat count." class="cr">Close paren: <input type="text" id="close" size="2" value="×⦆"></label>
+      </div>
     </div>
     <button class="analyze" onclick="analyze()">Analyze</button>
     <h3>Results:</h3>
@@ -79,6 +82,7 @@
     }
     #delim { height:1em; width:2.4em; resize: none; padding:0.25em; vertical-align:middle; font-size: 1.3em; line-height: 1em;}
     #delim::-webkit-scrollbar {display: none;}
+    h4 { margin: 0.25em 0; }
   </style>
   <script>
     function getChars() {

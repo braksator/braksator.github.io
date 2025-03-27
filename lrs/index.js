@@ -14,7 +14,7 @@ let lrs = module.exports = {
   text: (txt, opts) => {
     opts = { ...{ maxRes: 50, minLen: 4, maxLen: 120, minOcc: 3, omit: [], trim: 1, clean: 1, words: 1, break: [], penalty: 0 }, ...opts };
     txt = opts.clean ? txt.replace(/[^\w]/g, '\0') : txt;
-    let strings = {},
+    let strings = {}, len, substr, i, j, seg,
       segments = (opts.words || opts.break.length) ?
         txt.split(new RegExp(`(${opts.words ? '\\s+' : ''}${opts.break.length ? opts.break.join('|') : ''}|\\0)`)).filter(segment => segment !== '' && segment !== '\u0000')
         : txt.split('\0').filter(segment => segment !== '');
@@ -27,11 +27,11 @@ let lrs = module.exports = {
       }, {});
     }
     else {
-      for (let seg of segments) {
-        let len = seg.length;
-        for (let i = 0; i <= len - opts.minLen; i++) {
-          for (let j = opts.minLen; j <= opts.maxLen && i + j <= len; j++) {
-            let substr = seg.substring(i, i + j);
+      for (seg of segments) {
+        len = seg.length;
+        for (i = 0; i <= len - opts.minLen; i++) {
+          for (j = opts.minLen; j <= opts.maxLen && i + j <= len; j++) {
+            substr = seg.substring(i, i + j);
             if (!strings[substr]) strings[substr] = 0;
             strings[substr]++;
           }
