@@ -10,55 +10,33 @@ let fs = require('fs');
 
 let lrs = module.exports = {
 
-  // Handles progress counter.
-  prog: (processed, total, opts) => {
-    if (opts.prog) {
-      let percent = ((processed / total) * 100).toFixed(2) + "%",
-        progText = opts.progText;
-      if (opts.progID) {
-        let progressElement = document.getElementById(opts.progID);
-        if (progressElement) progressElement.textContent = `${progText}${percent}`;
-      }
-      else if (typeof process !== "undefined" && process.stdout && process.stdout.write)
-        process.stdout.write(`\r${progText}${percent}`);
-    }
-  },
-
   // Finds repeated substrings in a piece of text.
   text: (txt, opts) => {
-    opts = { ...{ maxRes: 50, minLen: 4, maxLen: 120, minOcc: 3, omit: [], trim: 1, clean: 1, words: 1, break: [], penalty: 0, prog: 0, progID: null, progText: null }, ...opts };
+    opts = { ...{ maxRes: 50, minLen: 4, maxLen: 120, minOcc: 3, omit: [], trim: 1, clean: 1, words: 1, break: [], penalty: 0 }, ...opts };
     txt = opts.clean ? txt.replace(/[^\w]/g, '\0') : txt;
     let strings = {},
       segments = (opts.words || opts.break.length) ?
         txt.split(new RegExp(`(${opts.words ? '\\s+' : ''}${opts.break.length ? opts.break.join('|') : ''}|\\0)`)).filter(segment => segment !== '' && segment !== '\u0000')
-        : txt.split('\0').filter(segment => segment !== ''),
-      totalChars = segments.reduce((sum, seg) => sum + seg.length, 0),
-      processedChars = 0;
+        : txt.split('\0').filter(segment => segment !== '');
 
     if (opts.words) {
       strings = segments.reduce((acc, word) => {
         if ((!opts.minLen || word.length >= opts.minLen) && (!opts.maxLen || word.length <= opts.maxLen))
           acc[word] = (acc[word] || 0) + 1;
-        processedChars += word.length;
-        lrs.prog(processedChars, totalChars, opts);
         return acc;
       }, {});
     }
     else {
-      for (let seg of segments) {
-        let len = seg.length;
-        for (let i = 0; i <= len - opts.minLen; i++) {
-          for (let j = opts.minLen; j <= opts.maxLen && i + j <= len; j++) {
-            let substr = seg.substring(i, i + j);
-            if (!strings[substr]) strings[substr] = 0;
-            strings[substr]++;
-          }
+      let len = seg.length;
+      for (let i = 0; i <= len - opts.minLen; i++) {
+        for (let j = opts.minLen; j <= opts.maxLen && i + j <= len; j++) {
+          let substr = seg.substring(i, i + j);
+          if (!strings[substr]) strings[substr] = 0;
+          strings[substr]++;
         }
-        processedChars += seg.length;
-        lrs.prog(processedChars, totalChars, opts);
       }
     }
-    lrs.prog(totalChars, totalChars, opts);
+    
     let res = Object.keys(strings)
       .filter(substr => strings[substr] >= opts.minOcc && !opts.omit.includes(substr.toLowerCase()))
       .map(substr => ({ substring: substr, count: strings[substr], score: (substr.length - opts.penalty) * strings[substr] }));

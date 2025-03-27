@@ -39,12 +39,12 @@
       <br>
       <label title="Can be used to concatenate texts with a special char." class="fr">Split input on char: <input type="text" id="break" size="2" value="" placeholder="none"></label>
       <br>
-      <label title="Character/s to insert between each result." class="cr">Delimiter: <input type="text" id="delim" size="2" value="★"></label>
+      <label title="Character/s to insert between each result." class="cr">Delimiter: <textarea rows="1" id="delim" rows="1" cols="2">★</textarea></label>
       <label title="Character/s to insert before the repeat count." class="cr">Open paren: <input type="text" id="open" size="2" value="⦅"></label>
       <label title="Character/s to insert after the repeat count." class="cr">Close paren: <input type="text" id="close" size="2" value="×⦆"></label>
     </div>
     <button class="analyze" onclick="analyze()">Analyze</button>
-    <h3>Results:<div id="prog"></div></h3>
+    <h3>Results:</h3>
     <div class="results" id="results"></div>
   </div>
   <footer>Created Mar 2025 by D.A. Braksator. <a href="https://github.com/braksator/LongestRepeatedStrings">Github repo</a></footer>
@@ -77,7 +77,8 @@
     input[type=file] { font-size: 24px; cursor: pointer; text-align: center; margin: 0 auto; margin-left: .5em;
       &::file-selector-button { margin: 1em auto; margin-right: 1em; cursor: pointer; padding: .25em 2em; border-radius: 5px; border-width: 0; background: #f2f2f2; }
     }
-    #prog { float: right; opacity: .6; }
+    #delim { height:1em; width:2.4em; resize: none; padding:0.25em; vertical-align:middle; font-size: 1.3em; line-height: 1em;}
+    #delim::-webkit-scrollbar {display: none;}
   </style>
   <script>
     function getChars() {
@@ -103,24 +104,28 @@
     }
     function analyzeText() {
       let text = document.getElementById('textInput').value, results = document.getElementById('results');
-      results.innerText = text ? '⌛ Processing...\r\n' : '⚠️ No input text supplied!';
-      if (text) {
-        let res = lrs.textReport(lrs.text(text, getOpts()), 0, getChars());
-        results.innerText += res ? res : '📄 No results.';
-      }
+      results.textContent = text ? '⌛ Processing...\r\n' : '⚠️ No input text supplied!';
+      setTimeout(() => {
+        if (text) {
+          let res = lrs.textReport(lrs.text(text, getOpts()), 0, getChars());
+          results.textContent = res ? res : '📄 No results.';
+        }
+      }, 1);
     }
     function analyze() {
       let files = document.getElementById('fileInput').files, results = document.getElementById('results');
-      results.innerText = '⌛ Processing...\r\n';
-      if (!files.length) return analyzeText();
-      [...files].forEach(file => {
-        let reader = new FileReader();
-        reader.onload = () => {
-          let res = lrs.textReport(lrs.text(reader.result, getOpts()), 0, getChars());
-          results.innerText += `📄 Analysis of repeated strings in "${file.name}": ${res ? res : 'No results.'} \r\n`;
-        };
-        reader.readAsText(file);
-      });
+      results.textContent = '⌛ Processing...\r\n';
+      setTimeout(() => {
+        if (!files.length) return analyzeText();
+        [...files].forEach(file => {
+          let reader = new FileReader();
+          reader.onload = () => {
+            let res = lrs.textReport(lrs.text(reader.result, getOpts()), 0, getChars());
+            results.textContent += `📄 Analysis of repeated strings in "${file.name}": ${res ? res : 'No results.'} \r\n`;
+          };
+          reader.readAsText(file);
+        });
+      }, 1);
     }
     function require() { return 0; }
     module = {};
