@@ -19,20 +19,21 @@ let lrs = module.exports = {
       clean: 0, words: 1, break: [], split: [' ', ',', '.', '\n'], escSafe: 1, penalty: 0 }, ...opts };
     opts.split = opts.split.map(lrs.escapeRegex);
     opts.break = opts.break.map(lrs.escapeRegex);
-    txt = opts.clean ? txt.replace(/[^\w]/g, ' ') : txt;
-    console.log(opts);
+    if (opts.clean) {
+      txt = txt.replace(/[^\w]/g, '@');
+      opts.break.push('@');
+    }
+    opts.words && opts.break.push(' ');
     let strings = {}, len, substr, segIndex, seg, segIdx, charIdx, i, j,
       segments = (opts.words || opts.break.length || opts.split.length) ?
         txt.split(new RegExp(
           '(' +
-            (opts.words ? '\\s+' : '') +
             (opts.break.length ? `(?=${opts.break.join('|')})` + opts.break.join('|') : '') +
           ')' +
           (opts.split.length ? `|(?<=${opts.split.join('|')})(\\s*)` : '')
         ))
-        .filter(segment => segment && !opts.break.includes(segment))
+        .filter(segment => segment)
       : [txt];
-    console.log(segments);
     if (opts.escSafe) {
       segments = segments.map((segment, index, array) => {
         if (index < array.length - 1 && segment.endsWith('\\') && segment.length > 1 && segment[segment.length - 2] != '\\') {
@@ -42,7 +43,7 @@ let lrs = module.exports = {
         return segment;
       }).filter(segment => segment);
     }
-    if (opts.words) {
+    if (0 && opts.words) {
       strings = segments.reduce((acc, word) => {
         if ((!opts.minLen || word.length >= opts.minLen) && (!opts.maxLen || word.length <= opts.maxLen))
           acc[word] = (acc[word] || 0) + 1;
@@ -62,9 +63,8 @@ let lrs = module.exports = {
               if (segIdx >= segments.length) break;
               charIdx = 0;
             }
-            if (segIdx >= segments.length) break;
+            if (segIdx >= segments.length || opts.break.includes(segments[segIdx])) break;
             substr += segments[segIdx][charIdx];
-            if (segIdx < segments.length - 1 && opts.break.includes(segments[segIdx + 1])) break;
             if (substr.length >= opts.minLen) {
               if (opts.escSafe && substr.endsWith('\\') && substr.length > 1 && substr[substr.length - 2] != '\\') continue;
               if (!strings[substr]) strings[substr] = 0;
