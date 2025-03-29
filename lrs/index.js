@@ -15,23 +15,24 @@ let lrs = module.exports = {
 
   // Finds repeated substrings in a piece of text.
   text: (txt, opts) => {
-    opts = { ...{ maxRes: 50, minLen: 4, maxLen: 40, minOcc: 3, omit: [], trim: 1,
+    opts = { ...{ maxRes: 50, minLen: 4, maxLen: 40, minOcc: 2, omit: [], trim: 1,
       clean: 0, words: 1, break: [], split: [' ', ',', '.', '\n'], escSafe: 1, penalty: 0 }, ...opts };
     opts.split = opts.split.map(lrs.escapeRegex);
     opts.break = opts.break.map(lrs.escapeRegex);
-    txt = opts.clean ? txt.replace(/[^\w]/g, '\0') : txt;
-    let strings = {}, len, substr, segIndex, seg, segIdx, charIdx, i, j, currentIndex,
+    txt = opts.clean ? txt.replace(/[^\w]/g, ' ') : txt;
+    console.log(opts);
+    let strings = {}, len, substr, segIndex, seg, segIdx, charIdx, i, j,
       segments = (opts.words || opts.break.length || opts.split.length) ?
         txt.split(new RegExp(
           '(' +
             (opts.words ? '\\s+' : '') +
-            (opts.break.length ? opts.break.join('|') : '') +
-            (opts.clean ? '|\\0' : '') +
+            (opts.break.length ? `(?=${opts.break.join('|')})` + opts.break.join('|') : '') +
           ')' +
           (opts.split.length ? `|(?<=${opts.split.join('|')})(\\s*)` : '')
         ))
-        .filter(segment => segment && segment !== '\u0000')
-      : opts.clean ? txt.split('\0').filter(segment => segment) : [txt];
+        .filter(segment => segment && !opts.break.includes(segment))
+      : [txt];
+    console.log(segments);
     if (opts.escSafe) {
       segments = segments.map((segment, index, array) => {
         if (index < array.length - 1 && segment.endsWith('\\') && segment.length > 1 && segment[segment.length - 2] != '\\') {

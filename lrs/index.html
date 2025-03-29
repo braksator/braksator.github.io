@@ -24,28 +24,52 @@
       <label title="The minimum length of substrings to consider." class="hr">Min match length: <input type="number" id="minLen" value="4"></label>
       <label title="The maximum length of substrings to consider." class="hr">Max match length: <input type="number" id="maxLen" value="40"></label>
       <br>
-      <label title="The minimum number of occurrences a substring must have to be included." class="hr">Min occurrences: <input type="number" id="minOcc" value="3"></label>
+      <label title="The minimum number of occurrences a substring must have to be included." class="hr">Min occurrences: <input type="number" id="minOcc" value="2"></label>
       <label title="The maximum length of substrings to consider." class="hr">Max results: <input type="number" id="maxRes" value="50"></label>
       <br>
       <label title="Helps order results." class="fr">Per-occurence score penalty: <input type="number" id="penalty" value="0"></label>
+      <br>
+      <h4>Input splitting</h4>
+      <h5>(Splitting helps speed up processing)</h5>
+      <div class="split">
+        <label style="font-size: 1.2em;">Split input after (chars are retained):</label>
+        <br>
+        <label><input type="checkbox" name="split" value=" " checked><span class="char"> </span>(space)</label>
+        <label><input type="checkbox" name="split" value="\n" checked><span class="char">\n</span>(newline)</label>
+        <label><input type="checkbox" name="split" value="\t" checked><span class="char">\t</span>(tab)</label>
+        <label><input type="checkbox" name="split" value=":" checked><span class="char">:</span>(colon)</label>
+        <label><input type="checkbox" name="split" value=";" checked><span class="char">;</span>(semi-colon)</label>
+        <label><input type="checkbox" name="split" value="." checked><span class="char">.</span>(full-stop)</label>
+        <label><input type="checkbox" name="split" value="," checked><span class="char">,</span>(comma)</label>
+        <label><input type="checkbox" name="split" value='"'><span class="char">"</span>(double-quote)</label>
+        <label><input type="checkbox" name="split" value="'"><span class="char">'</span>(single-quote)</label>
+        <label><input type="checkbox" name="split" value="{"><span class="char">{</span>(open brace)</label>
+        <label><input type="checkbox" name="split" value="}"><span class="char">}</span>(close brace)</label>
+        <label><input type="checkbox" name="split" value="("><span class="char">(</span>(open paren)</label>
+        <label><input type="checkbox" name="split" value=")"><span class="char">)</span>(close paren)</label>
+        <label><input type="checkbox" name="split" value="["><span class="char">[</span>(open bracket)</label>
+        <label><input type="checkbox" name="split" value="]"><span class="char">]</span>(close bracket)</label>
+        <label><input type="checkbox" name="split" value="="><span class="char">=</span>(equals)</label>
+      </div>
+      <div class="break">
+        <label style="font-size: 1.2em;" title="Add your own" class="cr">Custom split input after (char is retained): <input type="text" size="2" id="split-custom" value=""></label>
+        <label style="font-size: 1.2em;" title="Can be used to concatenate texts." class="cr">Split input after (char is discarded): <input type="text" size="2" id="break" value=""></label>
+      </div>
+
+      <br>
+      <h4>Processing</h4>
+      <label title="Symbols won't appear in matches"><input type="checkbox" id="clean" checked> Strip symbols</label>
+      <label title="Matches on whole words."><input type="checkbox" id="words" checked> Whole words (fast!)</label>
+      <label title="Trims white space from results."><input type="checkbox" id="trim" checked> Trim white space</label>
       <br>
       <label title="Substrings to omit from the results. Can be used to ignore accepted long/frequent words.">Words to omit (one per line):</label>
       <br>
       <textarea id="omit" style="height: 40px; field-sizing: content; width: 50%;"></textarea>
       <br>
-      <label title="Symbols won't appear in matches"><input type="checkbox" id="clean" checked> Split input on symbols</label>
-      <label title="Matches on whole words."><input type="checkbox" id="words" checked> Whole words</label>
-      <label title="Trims white space from results."><input type="checkbox" id="trim" checked> Trim white space</label>
-      <br>
-      <label title="Can be used to concatenate texts with a special char." class="fr">Split input on char: <input type="text" id="break" size="2" value="" placeholder="none"></label>
-      <label title="Breaking up input helps with processing." class="fr">Split input after: <input type="text" id="split" size="2" value=";" placeholder="none"></label>
-      <br>
-      <div class="report-settings">
-        <h4>Report settings</h4>
-        <label title="Character/s to insert between each result." class="cr">Delimiter: <textarea rows="1" id="delim" rows="1" cols="2">★</textarea></label>
-        <label title="Character/s to insert before the repeat count." class="cr">Open paren: <input type="text" id="open" size="2" value="⦅"></label>
-        <label title="Character/s to insert after the repeat count." class="cr">Close paren: <input type="text" id="close" size="2" value="×⦆"></label>
-      </div>
+      <h4>Report</h4>
+      <label title="Character/s to insert between each result." class="cr">Delimiter: <textarea rows="1" id="delim" rows="1" cols="2">★</textarea></label>
+      <label title="Character/s to insert before the repeat count." class="cr">Open paren: <input type="text" id="open" size="2" value="⦅"></label>
+      <label title="Character/s to insert after the repeat count." class="cr">Close paren: <input type="text" id="close" size="2" value="×⦆"></label>
     </div>
     <button class="analyze" onclick="analyze()">Analyze</button>
     <h3>Results:</h3>
@@ -57,6 +81,7 @@
     body { font-family: Futura, "Trebuchet MS", Arial, sans-serif; text-align: center; padding: 1em; background: repeating-linear-gradient(-45deg,#efefef,#efefef 5px,#fefefe 6px,#efefef 20px); }
     h1, h2, h4 { font-size: 32px; font-family: "Winky Sans", sans-serif; font-weight: bold; }
     h2 { font-size: 24px; margin: 0 0 .5em 0; }
+    h5 { margin: .25em 0; }
     .container { max-width: 960px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0px 0px 10px #aaa; }
     textarea { width: 100%; height: 100px; max-width: 100%;  }
     input, button { margin: 5px; padding: .25em; }
@@ -66,11 +91,11 @@
     .hr { width: 25%; display: inline-block; text-align: right; min-width: 220px; }
     .results { text-align: left; padding: 27px 1em 52px 1em; white-space: pre-wrap; line-height: 27px; background: repeating-linear-gradient(#fbfbb2, #fbfbb2 25px, #9abd6e 26px, #9abd6e 27px); }
     h3 { font-size: 14px; text-align: left; background: #fbfbb2; position: relative; font-variant: small-caps; margin: 20px 0 0 0; padding: 2em 1.4em; user-select: none; color: #444; border-bottom: 3px double #d9ac68; }
-    footer { margin-top: 20px; font-size: 12px; color: #666; background: #fff; max-width: 960px; padding: .2em; margin: 1em auto; border-radius: 3px; opacity: .6 }
+    footer { margin-top: 20px; font-size: 14px; color: #333; background: #fff; max-width: 960px; padding: .2em; margin: 1em auto; border-radius: 3px; opacity: .6 }
     .opts { background-color: #f2f2f2; padding: 1em; margin: 1em; border-radius: 10px }
     a { color: #bbb; }
     .analyze { padding: .25em 2em; color: #fff; background: #369c17; border: 0; border-radius: 5px; &:hover { background: #40aa20;} }
-    .intro { opacity: .6; font-size: 2.2em; font-family: Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif; transform: scale(1.2) scaleX(.8); margin: 2em 0; }
+    .intro { opacity: .6; font-size: 2.2em; font-family: Garamond, Baskerville, Baskerville Old Face, Hoefler Text, Times New Roman, serif; transform: scale(1.2) scaleX(.8); margin: 2em 0; }
     .cr { font-size: .8em; input { font-size: .8em; }}
     #upload { font-size: 24px; margin-top: .5em;
       label {
@@ -81,9 +106,12 @@
     input[type=file] { font-size: 24px; cursor: pointer; text-align: center; margin: 0 auto; margin-left: .5em;
       &::file-selector-button { margin: 1em auto; margin-right: 1em; cursor: pointer; padding: .25em 2em; border-radius: 5px; border-width: 0; background: #f2f2f2; }
     }
-    #delim { height:1em; width:2.4em; resize: none; padding:0.25em; vertical-align:middle; font-size: 1.3em; line-height: 1em;}
+    #delim { height:1em; width:2.4em; resize: none; padding: 0.25em; vertical-align: middle; font-size: 1.3em; line-height: 1em;}
     #delim::-webkit-scrollbar { display: none; }
     h4 { margin: 0.25em 0; font-size: 16px; }
+    .char { padding: 0 .25em; background: #ccc; margin-right: 3px; }
+    .split { text-align: left; font-size: .8em; }
+    .break { font-size: .8em; }
   </style>
   <script>
     function getChars() {
@@ -94,6 +122,8 @@
       };
     }
     function getOpts() {
+      let split = [...document.querySelectorAll('input[name="split"]:checked')].map(cb => cb.value);
+      document.getElementById('split-custom').value && split.push(document.getElementById('split-custom').value);
       return {
         minLen: +document.getElementById('minLen').value,
         maxLen: +document.getElementById('maxLen').value,
@@ -105,7 +135,7 @@
         clean: document.getElementById('clean').checked,
         words: document.getElementById('words').checked,
         break: document.getElementById('break').value ? [document.getElementById('break').value] : [],
-        break: document.getElementById('split').value ? [document.getElementById('split').value] : [],
+        split: split,
       };
     }
     function analyzeText() {
