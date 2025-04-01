@@ -1,0 +1,29 @@
+{
+  "name": "hypercrush",
+  "version": "1.0.9",
+  "description": "Crushes HTML or SVG code.",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "HTML",
+    "Hypertext",
+    "compression",
+    "compress",
+    "compressor",
+    "crush",
+    "crusher"
+  ],
+  "author": "D.A. Braksator",
+  "license": "Unlicense",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/braksator/HyperCrush.git"
+  },
+  "dependencies": {
+    "plugin-error": "^2.0.1",
+    "stream": "^0.0.3"
+  }
+}
