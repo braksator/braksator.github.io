@@ -28,6 +28,19 @@ function hypercrushCode(code, mode = 'all') {
       .replace(/(?<=\w=")\s+/g, '') // Remove spaces **after** an opening quote
       .replace(/\s*(["']?)\s*\/>/g, '$1/>'); // Remove extra space at end of self-closing tags
   }
+  if (mode == 'svg') {
+    let svgTagMatch = code.match(/<svg[^>]*>[\s\S]*<\/svg>/);
+    code = svgTagMatch ? svgTagMatch[0] : code;
+    code = code
+      .replace(/\s+version="[^"]*"/, '') // Remove version attr
+      .replace(/\s*baseProfile="[^"]*"/i, '')  // Remove baseProfile attr
+      .replace(/\s+id="[^"]*"/, '') // Remove id attr
+      .replace(/\s*xmlns:xlink="http:\/\/www\.w3\.org\/1999\/xlink"\s*|\s*x="0px"\s*|\s*y="0px"*/g, '') // Remove xmlns attr
+      .replace(/\s*xml:space="preserve"*/g, '') // Remove xml:space attr
+      .replace(/\s*enable-background="[^"]*"/g, '') // Remove enable-background attr
+      .replace(/\b0\./g, '.') // Remove ALL leading zeros for decimal numbers
+    code = hypercrushCode(code, 'all'); // Run an 'all' pass.
+  }
   return code;
 }
 

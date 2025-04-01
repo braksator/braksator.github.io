@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HTML Crush</title>
+  <title>HyperCrush</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
@@ -18,6 +18,12 @@
     <p class="intro">Optimizes already-minified HTML code.</p>
     <textarea id="textInput" placeholder="Enter HTML here..."></textarea>
     <div id="upload"><label><span>📁</span><input type="file" id="fileInput" multiple></label></div>
+    <form id="options">
+      <label><input type="radio" name="crush" value="all" checked> HyperCrush (HTML)</label><br>
+      <label><input type="radio" name="crush" value="default"> HyperCrush (JS pre-terser)</label><br>
+      <label><input type="radio" name="crush" value="whitespace"> Whitespace (JS post-terser)</label><br>
+      <label><input type="radio" name="crush" value="svg"> SVG Crush</label>
+    </form>
     <button class="crush" onclick="crush()">Crush</button>
     <div id="output">
       <h3>Output</h3>
@@ -57,11 +63,15 @@
     #output, #results, #summary, #downloads { display: none; &.vis { display: block; }}
     #summary, .savings { font-variant: small-caps; }
     #summary { margin-bottom: .25em; }
+    #options { width: 300px; text-align: left; margin: 2em auto; }
   </style>
   <script>
     function getSavingsText(text, res) {
       let inLen = new Blob([text]).size / 1024, outLen = new Blob([res]).size / 1024;
       return `${inLen.toFixed(2)}kb crushed to <b>${outLen.toFixed(2)}kb</b> (${((outLen / inLen) * 100).toFixed(2)}%)`;
+    }
+    function runHC(text) {
+      return hypercrushCode(text, document.querySelector('input[name="crush"]:checked').value);
     }
     function crushText() {
       let text = document.getElementById('textInput').value, results = document.getElementById('results'),
@@ -72,7 +82,7 @@
       dl.classList.remove('vis');
       setTimeout(() => {
         if (text) {
-          let res = hypercrushCode(text);
+          let res = runHC(text);
           summary.innerHTML = getSavingsText(text, res);
           results.textContent = res;
           summary.classList.add('vis');
@@ -95,7 +105,7 @@
         [...files].forEach(file => {
           let reader = new FileReader();
           reader.onload = () => {
-            let res = hypercrushCode(reader.result);
+            let res = runHC(reader.result);
             dl.innerHTML += `
               <div class="dl">📄
                 <a href="${URL.createObjectURL(new Blob([res], { type: "text/html" }))}" download="${file.name}">${file.name}</a>
