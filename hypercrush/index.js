@@ -30,16 +30,20 @@ function hypercrushCode(code, mode = 'all') {
   }
   if (mode == 'svg') {
     let svgTagMatch = code.match(/<svg[^>]*>[\s\S]*<\/svg>/);
-    code = svgTagMatch ? svgTagMatch[0] : code;
-    code = code
-      .replace(/\s+version="[^"]*"/, '') // Remove version attr
-      .replace(/\s*baseProfile="[^"]*"/i, '')  // Remove baseProfile attr
-      .replace(/\s+id="[^"]*"/, '') // Remove id attr
-      .replace(/\s*xmlns:xlink="http:\/\/www\.w3\.org\/1999\/xlink"\s*|\s*x="0px"\s*|\s*y="0px"*/g, '') // Remove xmlns attr
-      .replace(/\s*xml:space="preserve"*/g, '') // Remove xml:space attr
-      .replace(/\s*enable-background="[^"]*"/g, '') // Remove enable-background attr
-      .replace(/\b0\./g, '.'); // Remove ALL leading zeros for decimal numbers
-    code = hypercrushCode(code, 'all'); // Run an 'all' pass.
+    if (svgTagMatch) {
+      code = svgTagMatch[0]
+        .replace(/\s+version="[^"]*"/, '') // Remove version attr
+        .replace(/\s*baseProfile="[^"]*"/i, '')  // Remove baseProfile attr
+        .replace(/\s+id="[^"]*"/, '') // Remove id attr
+        .replace(/\s*xmlns:xlink="http:\/\/www\.w3\.org\/1999\/xlink"\s*|\s*x="0px"\s*|\s*y="0px"*/g, '') // Remove xmlns attr
+        .replace(/\s*xml:space="preserve"*/g, '') // Remove xml:space attr
+        .replace(/\s*enable-background="[^"]*"/g, '') // Remove enable-background attr
+        .replace(/\b0\./g, '.'); // Remove ALL leading zeros for decimal numbers
+      code = hypercrushCode(code, 'all'); // Run an 'all' pass.
+    }
+    else {
+      console.warn('HyperCrush is in "svg" mode but did not find SVG content.');
+    }
   }
   return code;
 }
@@ -58,7 +62,7 @@ module.exports = (mode = 'default') => {
       if (file.isNull()) return cb(null, file);
       if (file.isStream()) return cb(new PluginError(PLUGIN_NAME, 'Streaming not supported'));
       try {
-        file.contents = Buffer.from(hypercrushCode(file.contents.toString()));
+        file.contents = Buffer.from(hypercrushCode(file.contents.toString(), mode));
         cb(null, file);
       }
       catch (err) {
