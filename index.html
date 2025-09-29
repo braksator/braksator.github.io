@@ -11,13 +11,18 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
         margin: 0;
         font-family: 'Poppins', sans-serif;
+        height: 100%;
+        min-height: 100vh;
       }
       .links {
         display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         gap: 20px;
+        flex: 0 0 calc(60%);
+        padding: 1em 0;
       }
       .link a {
         display: flex;
@@ -49,12 +54,6 @@
       .link a:active {
         background: linear-gradient(135deg, #e0e0e0, #d0d0d0);
         box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.2);
-      }
-      @media (max-width: 400px) {
-        .links {
-          flex-direction: column;
-          gap: 10px;
-        }
       }
     </style>
   </head>
